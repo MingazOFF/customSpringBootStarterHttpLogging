@@ -1,3 +1,4 @@
+/*
 package ru.t1.mingazoff.httpLoggingStarter;
 
 import org.springframework.boot.SpringApplication;
@@ -11,3 +12,4 @@ public class HttpLoggingStarterApplication {
 	}
 
 }
+*/

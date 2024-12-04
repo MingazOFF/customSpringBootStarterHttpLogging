@@ -10,6 +10,8 @@ import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 import ru.t1.mingazoff.httpLoggingStarter.config.HttpLoggingConfigProperties;
 
+import java.net.http.HttpResponse;
+
 @Component
 @Aspect
 public class MainAspect {
@@ -63,8 +65,10 @@ public class MainAspect {
             throw new RuntimeException();
         }
         long finish = System.currentTimeMillis();
+        HttpResponse.ResponseInfo responseInfo = (HttpResponse.ResponseInfo) result;
+        int status = responseInfo.statusCode();
         log.log(level, "Execution time [method:{}] in ms:{}", joinPoint.getSignature().toShortString(), finish - start);
-
+        log.log(level, "Response statusCode: {}",status);
         return result;
     }
 }
