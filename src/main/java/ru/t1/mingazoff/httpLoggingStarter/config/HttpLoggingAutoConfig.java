@@ -10,14 +10,20 @@ import ru.t1.mingazoff.httpLoggingStarter.aspect.MainAspect;
 @EnableConfigurationProperties(HttpLoggingConfigProperties.class)
 public class HttpLoggingAutoConfig {
 
+
     private final HttpLoggingConfigProperties properties;
 
     public HttpLoggingAutoConfig(HttpLoggingConfigProperties properties) {
         this.properties = properties;
     }
-@Bean
-@ConditionalOnProperty(name = "http.logging.enabled", havingValue = "true", matchIfMissing = true)
+
+
+    @Bean
+    @ConditionalOnProperty(name = "http.logging.enabled", havingValue = "true", matchIfMissing = true)
     public MainAspect mainAspect() {
+        if (properties == null) {
+            throw new IllegalStateException("HttpLoggingConfigProperties is null");
+        }
         return new MainAspect(properties);
     }
 }

@@ -7,9 +7,17 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "http.logging")
 public class HttpLoggingConfigProperties {
 
-    private  String enabled;
+    private String enabled;
 
-    private  String level;
+    private String level;
+
+    public HttpLoggingConfigProperties(String level, String enabled) {
+        this.level = level;
+        this.enabled = enabled;
+    }
+
+    public HttpLoggingConfigProperties() {
+    }
 
     public String getLevel() {
         return level;

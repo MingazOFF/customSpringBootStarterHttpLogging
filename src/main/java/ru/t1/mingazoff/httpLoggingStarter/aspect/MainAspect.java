@@ -1,31 +1,31 @@
 package ru.t1.mingazoff.httpLoggingStarter.aspect;
 
-
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
-import org.springframework.stereotype.Component;
 import ru.t1.mingazoff.httpLoggingStarter.config.HttpLoggingConfigProperties;
 
 import java.net.http.HttpResponse;
 
-@Component
 @Aspect
 public class MainAspect {
-    private HttpLoggingConfigProperties properties;
 
+    private final Level level;
 
     public MainAspect(HttpLoggingConfigProperties properties) {
-        this.properties = properties;
+
+        if (properties.getLevel().isEmpty()) {
+            properties.setLevel("INFO");
+        }
+
+        level = Level.getLevel(properties.getLevel());
+
     }
 
     Logger log = LogManager.getLogger(MainAspect.class);
-
-
-    Level level = Level.getLevel(properties.getLevel());
 
 
     @Before("@annotation(LogBefore)")
@@ -68,7 +68,7 @@ public class MainAspect {
         HttpResponse.ResponseInfo responseInfo = (HttpResponse.ResponseInfo) result;
         int status = responseInfo.statusCode();
         log.log(level, "Execution time [method:{}] in ms:{}", joinPoint.getSignature().toShortString(), finish - start);
-        log.log(level, "Response statusCode: {}",status);
+        log.log(level, "Response statusCode: {}", status);
         return result;
     }
 }

@@ -2,7 +2,4 @@ spring:
   application:
     name:
       httpLoggingStarter
-http:
-  logging:
-    enabled: true
-    level: INFO
+
