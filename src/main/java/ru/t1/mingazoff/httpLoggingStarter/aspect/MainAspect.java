@@ -17,11 +17,11 @@ public class MainAspect {
 
     public MainAspect(HttpLoggingConfigProperties properties) {
 
-        if (properties.getLevel().isEmpty()) {
-            properties.setLevel("INFO");
+        if (properties == null || properties.getLevel().isEmpty()) {
+            level = Level.getLevel("INFO");
+        } else {
+            level = Level.getLevel(properties.getLevel());
         }
-
-        level = Level.getLevel(properties.getLevel());
 
     }
 
